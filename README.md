@@ -99,7 +99,7 @@ python -m pip install -r requirements-docker.txt
 Inicie o servidor:
 
 ```powershell
-python -m uvicorn app.main:app --reload
+python -m uvicorn --app-dir src app.main:app --reload
 ```
 
 Abra no navegador:
@@ -187,16 +187,16 @@ O deploy publica o Worker e os arquivos de `public/`. O Wrangler mostra o endere
 ## Estrutura do projeto
 
 ```text
-app/
-  __init__.py
-  main.py
-  breach_service.py
 public/
   index.html
   static/
     dashboard.js
     styles.css
 src/
+  app/
+    __init__.py
+    main.py
+    breach_service.py
   worker.py
 pyproject.toml
 wrangler.jsonc

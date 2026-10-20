@@ -11,11 +11,11 @@ RUN addgroup --system app && adduser --system --ingroup app app
 COPY requirements-docker.txt ./
 RUN pip install --no-cache-dir -r requirements-docker.txt
 
-COPY app ./app
+COPY src/app ./src/app
 COPY public ./public
 
 USER app
 
 EXPOSE 8000
 
-CMD ["sh", "-c", "uvicorn app.main:app --host 0.0.0.0 --port ${PORT}"]
+CMD ["sh", "-c", "uvicorn --app-dir src app.main:app --host 0.0.0.0 --port ${PORT}"]

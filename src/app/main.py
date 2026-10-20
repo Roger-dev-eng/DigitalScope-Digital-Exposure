@@ -125,6 +125,10 @@ def create_app(
     breach_service = BreachService(provider=breach_provider)
     app = FastAPI(title="DigitalScope API", version="0.1.0")
     app_root = Path(__file__).parent
+    project_root = next(
+        (parent for parent in app_root.parents if (parent / "public").is_dir()),
+        app_root.parent.parent,
+    )
     request_history: dict[str, deque[float]] = defaultdict(deque)
     rate_limit_window = 60.0
     rate_limit_max_requests = 30
@@ -132,7 +136,7 @@ def create_app(
     if serve_local_assets:
         app.mount(
             "/static",
-            StaticFiles(directory=app_root.parent / "public" / "static", check_dir=False),
+            StaticFiles(directory=project_root / "public" / "static", check_dir=False),
             name="static",
         )
 
@@ -171,7 +175,7 @@ def create_app(
     if serve_local_assets:
         @app.get("/", response_class=FileResponse)
         def dashboard_home() -> FileResponse:
-            return FileResponse(app_root.parent / "public" / "index.html")
+            return FileResponse(project_root / "public" / "index.html")
 
     @app.get("/health")
     def health_check() -> dict[str, str]:
