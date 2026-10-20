@@ -58,7 +58,7 @@ O DigitalScope segue os seguintes princípios de privacidade:
 <a id="tecnologias"></a>
 ## Tecnologias
 
-- Python 3.13+ para o Worker Cloudflare (Python local também funciona com o `requirements.txt`)
+- Python 3.13+ para o Worker Cloudflare (Python local/Docker usa `requirements-docker.txt`)
 - FastAPI
 - Pydantic
 - HTTPX
@@ -93,7 +93,7 @@ Nesse modo, a consulta retorna uma lista vazia. Providers simulados também pode
 Instale as dependências:
 
 ```powershell
-python -m pip install -r requirements.txt
+python -m pip install -r requirements-docker.txt
 ```
 
 Inicie o servidor:
@@ -169,7 +169,7 @@ O Workers Free inclui até **100.000 chamadas de Worker por dia** e limita o CPU
 
 ### 2. Rode localmente e faça o primeiro deploy
 
-Instale Python 3.13 ou superior e [`uv`](https://docs.astral.sh/uv/). Na pasta do repositório, rode:
+Instale Python 3.13 ou superior, [Node.js](https://nodejs.org/) e [`uv`](https://docs.astral.sh/uv/). O `pywrangler` precisa do executável `node` acessível pelo `PATH` para preparar o ambiente Pyodide do Worker. Depois de instalar Node.js, feche e reabra o terminal e confirme que `node --version` retorna uma versão. Na pasta do repositório, rode:
 
 ```powershell
 uv run pywrangler dev
@@ -204,7 +204,7 @@ tests/
   test_exposure_api.py
 .env
 .gitignore
-requirements.txt
+requirements-docker.txt
 README.md
 ```
 
