@@ -117,7 +117,11 @@ def calculate_severity(breaches: list[dict[str, Any]]) -> str:
     return "low"
 
 
-def create_app(breach_provider: Callable[[str], list[dict[str, Any]]] | None = None) -> FastAPI:
+def create_app(
+    breach_provider: Callable[[str], Any] | None = None,
+    *,
+    serve_local_assets: bool = True,
+) -> FastAPI:
     breach_service = BreachService(provider=breach_provider)
     app = FastAPI(title="DigitalScope API", version="0.1.0")
     app_root = Path(__file__).parent
@@ -125,7 +129,12 @@ def create_app(breach_provider: Callable[[str], list[dict[str, Any]]] | None = N
     rate_limit_window = 60.0
     rate_limit_max_requests = 30
 
-    app.mount("/static", StaticFiles(directory=app_root / "static"), name="static")
+    if serve_local_assets:
+        app.mount(
+            "/static",
+            StaticFiles(directory=app_root.parent / "public" / "static", check_dir=False),
+            name="static",
+        )
 
     @app.middleware("http")
     async def add_security_headers(request, call_next):
@@ -159,16 +168,21 @@ def create_app(breach_provider: Callable[[str], list[dict[str, Any]]] | None = N
         )
         return response
 
-    @app.get("/", response_class=FileResponse)
-    def dashboard_home() -> FileResponse:
-        return FileResponse(app_root / "templates" / "dashboard.html")
+    if serve_local_assets:
+        @app.get("/", response_class=FileResponse)
+        def dashboard_home() -> FileResponse:
+            return FileResponse(app_root.parent / "public" / "index.html")
+
+    @app.get("/health")
+    def health_check() -> dict[str, str]:
+        return {"status": "ok"}
 
     @app.get("/api/exposure", response_model=ExposureResponse)
-    def get_exposure(
+    async def get_exposure(
         email: EmailStr = Query(..., description="User email to analyze")
     ) -> dict[str, Any]:
         try:
-            breaches = breach_service.lookup(str(email))
+            breaches = await breach_service.lookup_async(str(email))
         except BreachRateLimitError as error:
             raise HTTPException(status_code=429, detail=str(error)) from error
         except BreachProviderError as error:

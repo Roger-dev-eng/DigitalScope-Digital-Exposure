@@ -3,7 +3,7 @@
 Dashboard de exposição digital pessoal focado em evidências, privacidade e explicações claras sobre vazamentos associados a um e-mail.
 ## Live Demo
 
-https://digitalscope-api.jollysmoke-a1a46fbe.brazilsouth.azurecontainerapps.io
+O endereço `workers.dev` é exibido pelo Wrangler após o primeiro deploy. Consulte [Deploy na Cloudflare](#deploy-na-cloudflare).
 ## Índice
 
 - [Visão geral](#visao-geral)
@@ -14,7 +14,7 @@ https://digitalscope-api.jollysmoke-a1a46fbe.brazilsouth.azurecontainerapps.io
 - [Como executar](#como-executar)
 - [Como usar](#como-usar)
 - [API](#api)
-- [Deploy na Azure](#deploy-na-azure)
+- [Deploy na Cloudflare](#deploy-na-cloudflare)
 - [Estrutura do projeto](#estrutura-do-projeto)
 - [Testes](#testes)
 - [Limitações conhecidas](#limitacoes-conhecidas)
@@ -58,7 +58,7 @@ O DigitalScope segue os seguintes princípios de privacidade:
 <a id="tecnologias"></a>
 ## Tecnologias
 
-- Python 3.14+
+- Python 3.13+ para o Worker Cloudflare (Python local também funciona com o `requirements.txt`)
 - FastAPI
 - Pydantic
 - HTTPX
@@ -156,76 +156,32 @@ Respostas de erro relevantes:
 - `502`: provider externo indisponível ou recusou a consulta.
 
 
-## Deploy na Azure
+## Deploy na Cloudflare
 
+O app roda como **Python Worker com FastAPI** e publica HTML, CSS e JavaScript como **Static Assets**. O workflow `.github/workflows/deploy-cloudflare.yml` publica o Worker automaticamente a cada `push` para `main`.
 
-O projeto utiliza **GitHub Actions** para realizar o processo de CI/CD e publicar automaticamente a aplicação no **Microsoft Azure** sempre que ocorre um `push` na branch `main` ou quando o workflow é executado manualmente.
+O Workers Free inclui até **100.000 chamadas de Worker por dia** e limita o CPU a **10 ms por chamada**; as chamadas externas ao XposedOrNot usam o Fetch API do Worker.
 
-### Fluxo de Deploy
+### 1. Prepare sua conta Cloudflare
 
-O workflow `.github/workflows/deploy.yml` realiza as seguintes etapas:
+1. Crie uma conta gratuita em [dash.cloudflare.com](https://dash.cloudflare.com/), se ainda não tiver uma.
+2. Abra **Workers & Pages** e configure o subdomínio `workers.dev`, caso seja solicitado. Não ative Workers Paid nem Cloudflare Containers.
 
-1. **Checkout do código**
+### 2. Rode localmente e faça o primeiro deploy
 
-   * Utiliza `actions/checkout@v4` para obter o código-fonte do repositório.
+Instale Python 3.13 ou superior e [`uv`](https://docs.astral.sh/uv/). Na pasta do repositório, rode:
 
-2. **Autenticação no Azure**
-
-   * Utiliza `azure/login@v2` com **OpenID Connect (OIDC)**.
-   * A autenticação utiliza `AZURE_CLIENT_ID`, `AZURE_TENANT_ID` e `AZURE_SUBSCRIPTION_ID`.
-   * O acesso é realizado pela identidade `github-digitalscope-deploy`, evitando o armazenamento de credenciais tradicionais no GitHub.
-
-3. **Provisionamento da infraestrutura**
-
-   * Utiliza **Azure CLI** e **Bicep** para criar ou atualizar os recursos necessários.
-   * O template `infra/main.bicep` é executado através de:
-     `az deployment group create`.
-   * Os parâmetros da aplicação são definidos por meio das variáveis do ambiente de produção.
-
-4. **Build e publicação da imagem**
-
-   * Utiliza `az acr build` para construir a imagem Docker diretamente no **Azure Container Registry (ACR)**.
-   * A imagem é versionada utilizando o SHA do commit do GitHub:
-     `digitalscope:${{ github.sha }}`.
-
-5. **Deploy no Azure Container Apps**
-
-   * O workflow obtém o endereço do ACR e executa o template `infra/container-app.bicep`.
-   * A imagem correspondente ao commit atual é utilizada para atualizar a aplicação.
-   * O parâmetro `breachProvider` é configurado como `xposedornot`.
-
-6. **Exibição do endereço da aplicação**
-
-   * Ao final do processo, o workflow consulta o FQDN do Azure Container App utilizando `az containerapp show`, permitindo identificar o endereço público da aplicação.
-
-### Arquitetura do Deploy
-
-```text
-GitHub Repository
-       │
-       │ push → main
-       ▼
-GitHub Actions
-       │
-       │ OIDC
-       ▼
-Azure
-       │
-       ├── Resource Group
-       │      └── rg-digitalscope-prod
-       │
-       ├── Bicep
-       │      ├── main.bicep
-       │      └── container-app.bicep
-       │
-       ├── Azure Container Registry
-       │      └── digitalscope:<commit-sha>
-       │
-       └── Azure Container Apps
-              └── DigitalScope
+```powershell
+uv run pywrangler dev
 ```
 
-A infraestrutura é definida como código por meio do **Bicep**, enquanto o GitHub Actions automatiza autenticação, provisionamento, build da imagem e atualização da aplicação em produção.
+Isso inicia o projeto localmente. Para publicar a primeira versão, autentique sua conta Cloudflare quando solicitado e rode:
+
+```powershell
+uv run pywrangler deploy
+```
+
+O deploy publica o Worker e os arquivos de `public/`. O Wrangler mostra o endereço `https://digitalscope.<seu-subdominio>.workers.dev`.
 
 <a id="estrutura-do-projeto"></a>
 ## Estrutura do projeto
@@ -235,11 +191,15 @@ app/
   __init__.py
   main.py
   breach_service.py
+public/
+  index.html
   static/
     dashboard.js
     styles.css
-  templates/
-    dashboard.html
+src/
+  worker.py
+pyproject.toml
+wrangler.jsonc
 tests/
   test_exposure_api.py
 .env

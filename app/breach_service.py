@@ -1,10 +1,12 @@
 from __future__ import annotations
 
 import hashlib
+import inspect
 import os
 import time
 from copy import deepcopy
 from typing import Any, Iterable
+from urllib.parse import quote, urlencode
 
 import httpx
 from dotenv import load_dotenv
@@ -94,6 +96,73 @@ class BreachService:
             for name in breach_names
         ]
 
+    async def _workers_provider(self, email: str) -> list[dict[str, Any]]:
+        """Call XposedOrNot through the Workers Fetch API (no raw sockets)."""
+        from workers import fetch
+
+        headers = {"user-agent": "DigitalScope/0.1", "accept": "application/json"}
+        encoded_email = quote(email, safe="")
+        try:
+            response = await fetch(
+                f"https://api.xposedornot.com/v1/check-email/{encoded_email}",
+                headers=headers,
+            )
+        except Exception as error:
+            raise BreachProviderError("O provider de vazamentos não está disponível.") from error
+
+        if response.status == 404:
+            return []
+        if response.status == 429:
+            raise BreachRateLimitError("O limite de consultas do provider foi atingido. Tente novamente mais tarde.")
+        if not response.ok:
+            raise BreachProviderError("O provider de vazamentos recusou a consulta.")
+
+        try:
+            payload = await response.json()
+            raw_names = payload.get("breaches", [])
+            breach_names = raw_names[0] if len(raw_names) == 1 and isinstance(raw_names[0], list) else raw_names
+        except Exception as error:
+            raise BreachProviderError("O provider de vazamentos retornou uma resposta inválida.") from error
+
+        data_classes: list[str] = []
+        reported_period = "Detalhes indisponíveis"
+        details_available = False
+        if breach_names:
+            try:
+                analytics_url = "https://api.xposedornot.com/v1/breach-analytics?" + urlencode({"email": email})
+                analytics_response = await fetch(analytics_url, headers=headers)
+                if analytics_response.status == 429:
+                    raise BreachRateLimitError("O limite de consultas do provider foi atingido. Tente novamente mais tarde.")
+                if not analytics_response.ok:
+                    raise BreachProviderError("O provider de vazamentos recusou a consulta de detalhes.")
+
+                metrics = (await analytics_response.json()).get("BreachMetrics", {})
+                data_classes = self._extract_data_classes(metrics.get("xposed_data", []))
+                yearwise_details = metrics.get("yearwise_details", [{}])
+                year_counts = yearwise_details[0] if yearwise_details and isinstance(yearwise_details[0], dict) else {}
+                years = [year.removeprefix("y") for year, count in sorted(year_counts.items()) if count]
+                if not years:
+                    reported_period = "Data não informada"
+                elif years[0] == years[-1]:
+                    reported_period = years[0]
+                else:
+                    reported_period = f"{years[0]}–{years[-1]}"
+                details_available = True
+            except Exception:
+                # Keep the primary search results when only the detail request fails.
+                pass
+
+        return [
+            {
+                "name": str(name),
+                "date": reported_period,
+                "data_classes": data_classes,
+                "source": "XposedOrNot",
+                "details_available": details_available,
+            }
+            for name in breach_names
+        ]
+
     def _extract_data_classes(self, nodes: list[dict[str, Any]]) -> list[str]:
         data_classes: list[str] = []
         for node in nodes:
@@ -117,6 +186,24 @@ class BreachService:
         normalized = [normalize_breach(item) for item in self.provider(email)]
         self._cache[cache_key] = (now, normalized)
         return deepcopy(normalized)
+
+    async def lookup_async(self, email: str) -> list[dict[str, Any]]:
+        cache_key = hashlib.sha256(email.strip().lower().encode()).hexdigest()
+        cached = self._cache.get(cache_key)
+        now = time.monotonic()
+        if cached and now - cached[0] < self.cache_ttl:
+            return deepcopy(cached[1])
+
+        result = self.provider(email)
+        if inspect.isawaitable(result):
+            result = await result
+        normalized = [normalize_breach(item) for item in result]
+        self._cache[cache_key] = (now, normalized)
+        return deepcopy(normalized)
+
+
+async def xposedornot_workers_provider(email: str) -> list[dict[str, Any]]:
+    return await BreachService()._workers_provider(email)
 
 
 def normalize_data_classes(data: Any) -> list[str]:

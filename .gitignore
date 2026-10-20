@@ -1,6 +1,6 @@
 .github/*
 !.github/workflows/
-!.github/workflows/deploy-azure.yml
+!.github/workflows/deploy-cloudflare.yml
 .venv/
 venv/
 .env
@@ -25,3 +25,4 @@ Thumbs.db
 *.swo
 *.log
 docs/
+.wrangler/
