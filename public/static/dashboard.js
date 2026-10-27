@@ -133,8 +133,44 @@ form.addEventListener("submit", async (event) => {
                     dataTooltip.append(dataTrigger, dataContent);
                     metadata.append(document.createTextNode("|"), dataTooltip);
                 }
+                [
+                    breach.domain && `Domínio: ${breach.domain}`,
+                    breach.industry && `Setor: ${breach.industry}`,
+                    Number.isInteger(breach.exposed_records)
+                        && `Registros no incidente: ${breach.exposed_records.toLocaleString("pt-BR")}`,
+                    breach.password_risk && `Risco das senhas: ${breach.password_risk}`,
+                    breach.verified === true && "Incidente verificado pelo provider",
+                    breach.verified === false && "Incidente não verificado pelo provider",
+                ].filter(Boolean).forEach((value) => {
+                    metadata.append(document.createTextNode("|"));
+                    const detail = document.createElement("span");
+                    detail.textContent = value;
+                    metadata.append(detail);
+                });
                 metadata.append(document.createTextNode("|"), source);
                 item.append(name, metadata);
+                if (breach.description) {
+                    const description = document.createElement("p");
+                    description.className = "breach-description";
+                    description.textContent = breach.description;
+                    item.appendChild(description);
+                }
+                if (breach.reference_url) {
+                    try {
+                        const referenceUrl = new URL(breach.reference_url);
+                        if (["http:", "https:"].includes(referenceUrl.protocol)) {
+                            const reference = document.createElement("a");
+                            reference.className = "breach-reference";
+                            reference.href = referenceUrl.href;
+                            reference.target = "_blank";
+                            reference.rel = "noopener noreferrer";
+                            reference.textContent = "Consultar fonte do incidente";
+                            item.appendChild(reference);
+                        }
+                    } catch {
+                        // Ignore malformed provider references.
+                    }
+                }
                 if (!breach.details_available) {
                     const detailsError = document.createElement("p");
                     detailsError.className = "breach-meta";

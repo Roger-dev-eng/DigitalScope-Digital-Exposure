@@ -49,6 +49,7 @@ O DigitalScope segue os seguintes princípios de privacidade:
 - Alertas para credenciais, dados pessoais e exposição recorrente.
 - Recomendações proporcionais à quantidade e ao tipo de exposição.
 - Cartões de incidentes com origem, data, dados vazados e fonte.
+- Metadados individuais por incidente quando o XposedOrNot os fornece, incluindo descrição, domínio, setor e referência.
 - Tooltip para os tipos de dados, reduzindo poluição visual.
 - Paginação de cinco incidentes por página.
 - Cache temporário em memória.
@@ -235,7 +236,7 @@ Os testes cobrem:
 <a id="limitacoes"></a>
 ## Limitações
 
-- O XposedOrNot pode fornecer categorias e anos de forma agregada, sem data individual para cada incidente.
+- A disponibilidade de descrição, data, categorias e outros metadados depende do registro individual retornado pelo XposedOrNot.
 - O sistema não confirma quais campos específicos de um usuário foram efetivamente acessados.
 - O modo local não representa dados reais.
 - O cache atual existe apenas na memória do processo.
@@ -244,7 +245,6 @@ Os testes cobrem:
 <a id="proximos-passos"></a>
 ## Próximos passos
 
-- Melhorar a precisão dos metadados individuais quando o provider disponibilizar esse nível de detalhe.
 - Adicionar exportação segura do resultado.
 - Incluir a funcionalidade de ver como seus dados eram usados, com base nos termos de serviços e políticas de privacidade da fonte do vazamento.
 - Avaliar persistência somente após definir retenção e exclusão de dados.
