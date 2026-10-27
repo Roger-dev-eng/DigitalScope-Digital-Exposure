@@ -20,7 +20,6 @@ O endereço `workers.dev` é exibido pelo Wrangler após o primeiro deploy. Cons
 - [Estrutura do projeto](#estrutura-do-projeto)
 - [Testes](#testes)
 - [Limitações conhecidas](#limitacoes-conhecidas)
-- [Próximos passos](#proximos-passos)
 
 <a id="visao-geral"></a>
 ## Visão geral
@@ -47,6 +46,7 @@ O DigitalScope segue os seguintes princípios de privacidade:
 - Consulta pelo XposedOrNot.
 - Modo local para desenvolvimento sem chamadas externas.
 - Resumo de incidentes e severidade explicável.
+- Exportação do resultado em JSON gerado localmente, com e-mail parcialmente mascarado.
 - Alertas para credenciais, dados pessoais e exposição recorrente.
 - Recomendações proporcionais à quantidade e ao tipo de exposição.
 - Cartões de incidentes com origem, data, dados vazados e fonte.
@@ -253,10 +253,3 @@ O catálogo separa incidentes confirmados, alegações contestadas, falhas inter
 - O modo local não representa dados reais.
 - O cache atual existe apenas na memória do processo.
 - Ainda não há autenticação, histórico persistente ou monitoramento automático.
-
-<a id="proximos-passos"></a>
-## Próximos passos
-
-- Adicionar exportação segura do resultado.
-- Incluir a funcionalidade de ver como seus dados eram usados, com base nos termos de serviços e políticas de privacidade da fonte do vazamento.
-- Avaliar persistência somente após definir retenção e exclusão de dados.

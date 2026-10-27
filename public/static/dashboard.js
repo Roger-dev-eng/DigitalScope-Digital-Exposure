@@ -3,6 +3,8 @@ const analyzeButton = document.getElementById("analyze-button");
 const formStatus = document.getElementById("form-status");
 const results = document.querySelectorAll(".results");
 const emailInput = form.elements.email;
+const exportButton = document.getElementById("export-result");
+let currentExportReport = null;
 
 const platformCatalog = document.getElementById("platform-catalog");
 
@@ -33,6 +35,38 @@ viewTabs.forEach((tab, index) => {
             activateView(viewTabs[nextIndex], true);
         }
     });
+});
+
+const maskEmail = (email) => {
+    const [localPart, domain] = String(email || "").split("@");
+    if (!localPart || !domain) return "Oculto";
+    return `${localPart[0]}•••@${domain}`;
+};
+
+const safeExportBreach = (breach) => ({
+    name: String(breach.name || "Incidente sem nome"),
+    date: breach.date ? String(breach.date) : null,
+    source: String(breach.source || "XposedOrNot"),
+    details_available: breach.details_available === true,
+    data_classes: Array.isArray(breach.data_classes) ? breach.data_classes.map(String) : [],
+    description: breach.description ? String(breach.description) : null,
+    domain: breach.domain ? String(breach.domain) : null,
+    industry: breach.industry ? String(breach.industry) : null,
+    reference_url: breach.reference_url ? String(breach.reference_url) : null,
+    password_risk: breach.password_risk ? String(breach.password_risk) : null,
+    verified: typeof breach.verified === "boolean" ? breach.verified : null,
+    exposed_records: Number.isInteger(breach.exposed_records) ? breach.exposed_records : null,
+});
+
+exportButton.addEventListener("click", () => {
+    if (!currentExportReport) return;
+    const file = new Blob([JSON.stringify(currentExportReport, null, 2)], { type: "application/json;charset=utf-8" });
+    const downloadUrl = URL.createObjectURL(file);
+    const link = document.createElement("a");
+    link.href = downloadUrl;
+    link.download = `digitalscope-relatorio-${new Date().toISOString().slice(0, 10)}.json`;
+    link.click();
+    window.setTimeout(() => URL.revokeObjectURL(downloadUrl), 1000);
 });
 
 const safeExternalLink = (label, href, className = "catalog-link") => {
@@ -221,6 +255,8 @@ form.addEventListener("submit", async (event) => {
     }
 
     const email = new FormData(form).get("email");
+    currentExportReport = null;
+    exportButton.disabled = true;
     analyzeButton.disabled = true;
     analyzeButton.textContent = "Analisando...";
     formStatus.className = "form-status";
@@ -253,6 +289,27 @@ form.addEventListener("submit", async (event) => {
         }
 
         const payload = await response.json();
+        currentExportReport = {
+            title: "Relatório de exposição digital — DigitalScope",
+            generated_at: new Date().toISOString(),
+            email: maskEmail(payload.email || email),
+            summary: {
+                breach_count: Number(payload.summary.breach_count) || 0,
+                severity: String(payload.summary.severity || "unknown"),
+                exposed_data_types: Array.isArray(payload.summary.exposed_data_types)
+                    ? payload.summary.exposed_data_types.map(String)
+                    : [],
+            },
+            alerts: Array.isArray(payload.alerts) ? payload.alerts.map((alert) => ({
+                type: String(alert.type || "info"),
+                message: String(alert.message || ""),
+                details: Array.isArray(alert.details) ? alert.details.map(String) : [],
+            })) : [],
+            recommendations: Array.isArray(payload.recommendations) ? payload.recommendations.map(String) : [],
+            breaches: Array.isArray(payload.breaches) ? payload.breaches.map(safeExportBreach) : [],
+            note: "Este arquivo foi gerado localmente no navegador. O e-mail foi mascarado. Os resultados refletem apenas as fontes consultadas nesta busca.",
+        };
+        exportButton.disabled = false;
         document.getElementById("breach-count").textContent = payload.summary.breach_count;
         const severityLabels = { low: "Baixa", medium: "Média", high: "Alta" };
         document.getElementById("severity").textContent = severityLabels[payload.summary.severity] || payload.summary.severity;
