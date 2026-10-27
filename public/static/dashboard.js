@@ -94,16 +94,6 @@ const renderPlatformCatalog = (catalog) => {
         const securitySummary = document.createElement("p");
         securitySummary.className = "platform-summary";
         securitySummary.textContent = platform.security_summary;
-        card.append(securityHeading, securitySummary);
-
-        const dataHeading = document.createElement("h3");
-        dataHeading.textContent = "Como a plataforma diz que usa os dados";
-        const dataSummary = document.createElement("p");
-        dataSummary.className = "platform-summary";
-        dataSummary.textContent = platform.data_use;
-        card.append(dataHeading, dataSummary);
-        const policyLink = safeExternalLink("Abrir política de privacidade", platform.data_policy_url);
-        if (policyLink) card.appendChild(policyLink);
 
         const controls = document.createElement("ul");
         controls.className = "platform-controls";
@@ -114,7 +104,16 @@ const renderPlatformCatalog = (catalog) => {
             if (source) item.append(" ", source);
             controls.appendChild(item);
         });
-        card.appendChild(controls);
+        card.append(securityHeading, securitySummary, controls);
+
+        const dataHeading = document.createElement("h3");
+        dataHeading.textContent = "Como a plataforma diz que usa os dados";
+        const dataSummary = document.createElement("p");
+        dataSummary.className = "platform-summary";
+        dataSummary.textContent = platform.data_use;
+        card.append(dataHeading, dataSummary);
+        const policyLink = safeExternalLink("Abrir política de privacidade", platform.data_policy_url);
+        if (policyLink) card.appendChild(policyLink);
 
         const incidentsHeading = document.createElement("h3");
         incidentsHeading.textContent = "Incidentes públicos conhecidos";

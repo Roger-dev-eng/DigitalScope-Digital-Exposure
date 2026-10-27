@@ -213,6 +213,202 @@
           "url": "https://www.facebook.com/help/193677450678703/"
         }
       ]
+    },
+    {
+      "name": "Google",
+      "company": "Google LLC",
+      "security_summary": "A Conta Google e os serviços como Gmail e Drive usam controles de segurança da conta, incluindo verificação em duas etapas, passkeys, chaves de segurança e revisão de segurança. A proteção efetiva depende das configurações habilitadas pelo usuário.",
+      "data_use": "A política do Google descreve coleta de pesquisas, atividade em serviços, informações de dispositivo e conteúdo fornecido pelo usuário para operar e melhorar serviços, personalizar conteúdo e anúncios conforme as configurações e proteger os usuários.",
+      "data_policy_url": "https://policies.google.com/privacy?hl=pt-BR",
+      "controls": [
+        { "label": "Verificação em duas etapas e passkeys", "url": "https://support.google.com/accounts/answer/10956730?hl=pt-BR" },
+        { "label": "Revisão de segurança da Conta Google", "url": "https://myaccount.google.com/security-checkup" }
+      ],
+      "incidents": [
+        {
+          "title": "Falha em API do Google+ permitiu acesso a informações de perfil",
+          "occurred_at": "Novembro de 2018",
+          "disclosed_at": "Dezembro de 2018",
+          "status": "confirmed",
+          "status_label": "Falha confirmada em produto encerrado",
+          "summary": "O Google informou que um erro em uma API do Google+ afetou cerca de 52,5 milhões de pessoas. Aplicativos podiam acessar certos dados de perfil mesmo quando não estavam públicos. A empresa disse não ter evidência de uso indevido. O Google+ foi encerrado; este registro não indica uma falha atual na Conta Google.",
+          "sources": [
+            { "label": "Comunicado oficial do Google", "url": "https://blog.google/innovation-and-ai/technology/safety-security/expediting-changes-google-plus/" }
+          ]
+        }
+      ],
+      "incident_note": "Nenhum incidente adicional específico da Conta Google foi incluído neste perfil. A ocorrência do Google+ está listada separadamente e não representa todos os produtos Google.",
+      "regulatory_findings": [],
+      "sources": [
+        { "label": "Política de Privacidade do Google", "url": "https://policies.google.com/privacy?hl=pt-BR" },
+        { "label": "Segurança e verificação em duas etapas", "url": "https://support.google.com/accounts/answer/10956730?hl=pt-BR" }
+      ]
+    },
+    {
+      "name": "Amazon",
+      "company": "Amazon",
+      "security_summary": "A Amazon documenta verificação em duas etapas e recomenda o uso de senhas únicas. A disponibilidade de métodos como aplicativo autenticador e passkey depende do tipo de conta e região.",
+      "data_use": "A política descreve dados de conta, pedidos, buscas, navegação, dispositivos e interações para fornecer e personalizar compras e serviços, recomendar produtos, prevenir fraude e, conforme as escolhas e serviços, veicular publicidade.",
+      "data_policy_url": "https://www.amazon.com/gp/help/customer/display.html?nodeId=GX7NJQ4ZB8MHFRNJ",
+      "controls": [
+        { "label": "Verificação em duas etapas por código ou aplicativo autenticador", "url": "https://www.amazon.com/gp/help/customer/display.html?nodeId=G3PWZPU52FKN7PW4" },
+        { "label": "Recomendações oficiais para proteger a conta", "url": "https://www.amazon.com/gp/help/customer/display.html?nodeId=201909010" }
+      ],
+      "incidents": [
+        {
+          "title": "Erro técnico expôs nomes e endereços de e-mail de clientes",
+          "occurred_at": "Novembro de 2018",
+          "disclosed_at": "21/11/2018",
+          "status": "confirmed",
+          "status_label": "Exposição confirmada pela empresa",
+          "summary": "A Amazon confirmou que um erro técnico divulgou nomes e endereços de e-mail de alguns clientes e informou que corrigiu o problema e notificou as pessoas afetadas. A empresa não divulgou o número de afetados nem detalhes técnicos; disse que não houve invasão de seus sistemas.",
+          "sources": [
+            { "label": "Cobertura da notificação e declaração da Amazon", "url": "https://techcrunch.com/2018/11/21/amazon-admits-it-exposed-customer-email-addresses-doubles-down-on-secrecy/" }
+          ]
+        }
+      ],
+      "incident_note": "Nenhum incidente posterior foi incluído neste catálogo; isso não significa que nunca tenha ocorrido outro problema.",
+      "regulatory_findings": [],
+      "sources": [
+        { "label": "Aviso de Privacidade da Amazon", "url": "https://www.amazon.com/gp/help/customer/display.html?nodeId=GX7NJQ4ZB8MHFRNJ" },
+        { "label": "Verificação em duas etapas", "url": "https://www.amazon.com/gp/help/customer/display.html?nodeId=G3PWZPU52FKN7PW4" }
+      ]
+    },
+    {
+      "name": "X",
+      "company": "X Corp.",
+      "security_summary": "O X documenta autenticação em dois fatores, passkeys, alertas de novos logins e opções de proteção de redefinição de senha. A disponibilidade dos métodos pode variar conforme a conta e a região.",
+      "data_use": "A política do X descreve o uso de publicações, mensagens, dados de conta, dispositivo, localização aproximada e atividade para operar e personalizar o serviço, recomendar conteúdo e anúncios, medir publicidade e proteger a plataforma.",
+      "data_policy_url": "https://x.com/en/privacy",
+      "controls": [
+        { "label": "Autenticação em dois fatores, alertas de login e proteção da redefinição de senha", "url": "https://help.x.com/en/safety-and-security/account-security-tips" },
+        { "label": "Passkeys para entrar na conta", "url": "https://help.x.com/en/managing-your-account/how-to-use-passkey" }
+      ],
+      "incidents": [
+        {
+          "title": "Conjunto atribuído ao Twitter reuniu dados de perfis coletados por scraping",
+          "occurred_at": "Coleta reportada em 2021; conjunto publicado em janeiro de 2023",
+          "disclosed_at": "Janeiro de 2023",
+          "status": "disputed",
+          "status_label": "Dados publicados; origem e método contestados",
+          "summary": "O Have I Been Pwned catalogou cerca de 211 milhões de registros como dados coletados por scraping. O X afirmou que não havia evidência de exploração de vulnerabilidade e contestou a relação do conjunto com uma falha de seus sistemas. Por isso, não é classificado aqui como invasão confirmada.",
+          "sources": [
+            { "label": "Registro e análise do Have I Been Pwned", "url": "https://haveibeenpwned.com/breach/Twitter200M" }
+          ]
+        }
+      ],
+      "incident_note": "Nenhum outro incidente de exposição confirmado foi incluído neste perfil.",
+      "regulatory_findings": [],
+      "sources": [
+        { "label": "Política de Privacidade do X", "url": "https://x.com/en/privacy" },
+        { "label": "Orientações de segurança da conta", "url": "https://help.x.com/en/safety-and-security/account-security-tips" }
+      ]
+    },
+    {
+      "name": "Cloudflare",
+      "company": "Cloudflare, Inc.",
+      "security_summary": "A Cloudflare documenta autenticação multifator para contas e controles corporativos de proteção de dados, incluindo criptografia, resposta a incidentes e auditorias independentes. A plataforma é principalmente uma provedora de infraestrutura para sites e organizações, não uma rede social ou conta de consumo.",
+      "data_use": "A política descreve dados de conta e suporte, dados de navegação nos sites da Cloudflare e dados técnicos processados ao prestar serviços de rede e segurança. O que é processado depende do serviço contratado e do papel da Cloudflare como controladora ou operadora.",
+      "data_policy_url": "https://www.cloudflare.com/privacypolicy/",
+      "controls": [
+        { "label": "Autenticação multifator para proteger a conta Cloudflare", "url": "https://developers.cloudflare.com/fundamentals/account/account-security/2fa/" },
+        { "label": "Programa de segurança, resposta a incidentes e auditorias independentes", "url": "https://www.cloudflare.com/security-exhibit/" }
+      ],
+      "incidents": [
+        {
+          "title": "Exposição entre solicitações no cache KV de Workers AI",
+          "occurred_at": "27/08/2026 a 09/09/2026",
+          "disclosed_at": "26/10/2026",
+          "status": "confirmed",
+          "status_label": "Vulnerabilidade confirmada e corrigida",
+          "summary": "A Cloudflare informou que uma configuração do modelo GLM-5.3 no Workers AI permitia que conteúdo de cache de uma solicitação pudesse ser acessível em outra solicitação. A empresa desativou temporariamente o modelo, corrigiu a configuração e o código, e relatou validação da correção. O comunicado descreve risco de exposição de conteúdo enviado ao modelo, sem quantificar usuários afetados.",
+          "sources": [
+            { "label": "Relato técnico e cronologia da Cloudflare", "url": "https://blog.cloudflare.com/kv-cache-exposure-remediation/" }
+          ]
+        },
+        {
+          "title": "Dados do Salesforce acessados após comprometimento de integração de terceiro",
+          "occurred_at": "12 a 17/08/2025",
+          "disclosed_at": "02/09/2025",
+          "status": "confirmed",
+          "status_label": "Incidente confirmado em sistema de terceiro",
+          "summary": "A Cloudflare informou que invasores usaram uma integração comprometida do Salesloft Drift para acessar registros de casos de suporte em seu Salesforce. Os dados incluíam contatos e texto de chamados, que poderia conter credenciais compartilhadas com o suporte. A empresa rotacionou tokens e notificou clientes impactados.",
+          "sources": [
+            { "label": "Investigação e impacto nos clientes, publicados pela Cloudflare", "url": "https://blog.cloudflare.com/response-to-salesloft-drift-incident" }
+          ]
+        }
+      ],
+      "incident_note": "Este perfil cobre incidentes de dados e segurança divulgados pela Cloudflare, inclusive em serviços de infraestrutura; não é uma avaliação de segurança de sites que usam Cloudflare.",
+      "regulatory_findings": [],
+      "sources": [
+        { "label": "Política de Privacidade da Cloudflare", "url": "https://www.cloudflare.com/privacypolicy/" },
+        { "label": "Trust Hub: privacidade e proteção de dados", "url": "https://www.cloudflare.com/trust-hub/privacy-and-data-protection/" },
+        { "label": "Exhibit de segurança e auditorias", "url": "https://www.cloudflare.com/security-exhibit/" }
+      ]
+    },
+    {
+      "name": "Microsoft",
+      "company": "Microsoft Corporation",
+      "security_summary": "Contas Microsoft oferecem verificação em duas etapas e métodos sem senha, como passkeys e o Microsoft Authenticator. Produtos como Outlook, OneDrive, Windows e Xbox têm controles e configurações adicionais próprios.",
+      "data_use": "A declaração de privacidade descreve dados de conta, dispositivo, uso, buscas, diagnósticos e conteúdo necessário para prestar serviços como Outlook, OneDrive, Windows e Xbox, além de personalização, segurança e melhoria dos produtos. A coleta varia conforme o produto e as configurações.",
+      "data_policy_url": "https://www.microsoft.com/pt-br/privacy/privacystatement",
+      "controls": [
+        { "label": "Verificação em duas etapas para a conta Microsoft", "url": "https://support.microsoft.com/en-us/accounts-billing/security/how-to-use-two-step-verification-with-your-microsoft-account" },
+        { "label": "Configurações de segurança da conta Microsoft", "url": "https://account.microsoft.com/security" }
+      ],
+      "incidents": [
+        {
+          "title": "Grupo estatal acessou e exfiltrou e-mails corporativos da Microsoft",
+          "occurred_at": "Final de novembro de 2023 a janeiro de 2024",
+          "disclosed_at": "19/01/2024",
+          "status": "confirmed",
+          "status_label": "Incidente confirmado pela Microsoft",
+          "summary": "A Microsoft informou que o grupo Midnight Blizzard comprometeu uma conta de teste antiga sem produção e usou suas permissões para acessar uma pequena porcentagem das contas corporativas de e-mail, incluindo contas de liderança, segurança e jurídico. Alguns e-mails e anexos foram extraídos. O incidente afetou sistemas corporativos da Microsoft; não significa que contas pessoais de usuários foram acessadas.",
+          "sources": [
+            { "label": "Relato oficial da Microsoft", "url": "https://www.microsoft.com/en-us/msrc/blog/2024/01/microsoft-actions-following-attack-by-nation-state-actor-midnight-blizzard" }
+          ]
+        }
+      ],
+      "incident_note": "O incidente listado afetou contas corporativas internas, não é evidência de exposição de contas Microsoft pessoais de consumidores.",
+      "regulatory_findings": [],
+      "sources": [
+        { "label": "Declaração de Privacidade da Microsoft", "url": "https://www.microsoft.com/pt-br/privacy/privacystatement" },
+        { "label": "Verificação em duas etapas", "url": "https://support.microsoft.com/en-us/accounts-billing/security/how-to-use-two-step-verification-with-your-microsoft-account" },
+        { "label": "Aviso sobre o incidente Midnight Blizzard", "url": "https://www.microsoft.com/en-us/msrc/blog/2024/01/microsoft-actions-following-attack-by-nation-state-actor-midnight-blizzard" }
+      ]
+    },
+    {
+      "name": "PlayStation Network",
+      "company": "Sony Interactive Entertainment",
+      "security_summary": "A PlayStation documenta verificação em duas etapas por SMS ou aplicativo autenticador, códigos de backup e login por passkey. Esses recursos ajudam a proteger o acesso, mas dependem da configuração da conta e da segurança dos dispositivos de recuperação.",
+      "data_use": "A política brasileira descreve a coleta de dados de conta, console e dispositivo, atividade de jogo, navegação e conteúdo compartilhado para fornecer e melhorar os serviços, personalizar recomendações e anúncios, moderar conteúdo, prevenir fraude e proteger a comunidade. Configurações de privacidade e escolhas disponíveis variam conforme o recurso e a região.",
+      "data_policy_url": "https://www.playstation.com/pt-br/legal/privacy-policy/",
+      "controls": [
+        { "label": "Verificação em duas etapas, aplicativo autenticador e códigos de backup", "url": "https://www.playstation.com/en-us/support/account/2sv-login/" },
+        { "label": "Login por passkey", "url": "https://www.playstation.com/en-us/support/account/set-up-passkey/" },
+        { "label": "Configurações de privacidade e segurança para jogadores", "url": "https://www.playstation.com/pt-br/privacy-security-safety/" }
+      ],
+      "incidents": [
+        {
+          "title": "Intrusão na PlayStation Network comprometeu dados de contas",
+          "occurred_at": "17 a 19/04/2011",
+          "disclosed_at": "26/04/2011",
+          "status": "confirmed",
+          "status_label": "Intrusão e exposição confirmadas pela Sony",
+          "summary": "A Sony informou que uma intrusão não autorizada comprometeu dados associados a contas da PlayStation Network e Qriocity. A empresa disse acreditar que dados como nome, endereço, e-mail, data de nascimento, ID online, login e senha poderiam ter sido obtidos. A rede ficou indisponível durante a investigação e reconstrução dos sistemas.",
+          "sources": [
+            { "label": "Comunicado oficial da PlayStation sobre dados comprometidos", "url": "https://blog.playstation.com/2011/04/26/update-on-playstation-network-and-qriocity/" },
+            { "label": "Atualização oficial sobre as medidas de segurança", "url": "https://blog.playstation.com/2011/05/02/playstation-network-security-update/" }
+          ]
+        }
+      ],
+      "incident_note": "O incidente listado ocorreu em 2011. Nenhum incidente posterior de exposição de dados de jogadores foi incluído neste perfil; interrupções de serviço sem evidência de acesso a dados não são classificadas como vazamentos.",
+      "regulatory_findings": [],
+      "sources": [
+        { "label": "Política de Privacidade da PlayStation (Brasil)", "url": "https://www.playstation.com/pt-br/legal/privacy-policy/" },
+        { "label": "Segurança da conta e autenticação em duas etapas", "url": "https://www.playstation.com/en-us/support/account/2sv-login/" },
+        { "label": "Proteção de informações pessoais e privacidade", "url": "https://www.playstation.com/pt-br/privacy-security-safety/" }
+      ]
     }
   ]
 }
