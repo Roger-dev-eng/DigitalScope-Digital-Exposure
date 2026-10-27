@@ -6,6 +6,35 @@ const emailInput = form.elements.email;
 
 const platformCatalog = document.getElementById("platform-catalog");
 
+const viewTabs = Array.from(document.querySelectorAll('[role="tab"]'));
+const activateView = (tab, moveFocus = false) => {
+    viewTabs.forEach((item) => {
+        const active = item === tab;
+        item.classList.toggle("is-active", active);
+        item.setAttribute("aria-selected", String(active));
+        item.tabIndex = active ? 0 : -1;
+        const panel = document.getElementById(item.getAttribute("aria-controls"));
+        panel.hidden = !active;
+        panel.classList.toggle("is-active", active);
+    });
+    if (moveFocus) tab.focus();
+};
+
+viewTabs.forEach((tab, index) => {
+    tab.addEventListener("click", () => activateView(tab));
+    tab.addEventListener("keydown", (event) => {
+        let nextIndex;
+        if (event.key === "ArrowRight" || event.key === "ArrowDown") nextIndex = (index + 1) % viewTabs.length;
+        if (event.key === "ArrowLeft" || event.key === "ArrowUp") nextIndex = (index + viewTabs.length - 1) % viewTabs.length;
+        if (event.key === "Home") nextIndex = 0;
+        if (event.key === "End") nextIndex = viewTabs.length - 1;
+        if (nextIndex !== undefined) {
+            event.preventDefault();
+            activateView(viewTabs[nextIndex], true);
+        }
+    });
+});
+
 const safeExternalLink = (label, href, className = "catalog-link") => {
     try {
         const url = new URL(href);

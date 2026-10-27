@@ -21,6 +21,12 @@
             </header>
 
             <main class="content">
+                <div class="view-tabs" role="tablist" aria-label="Seções do Digital Exposure">
+                    <button class="view-tab is-active" id="tab-consulta" type="button" role="tab" aria-selected="true" aria-controls="view-consulta" tabindex="0">Verificar e-mail</button>
+                    <button class="view-tab" id="tab-plataformas" type="button" role="tab" aria-selected="false" aria-controls="view-plataformas" tabindex="-1">Panorama das plataformas</button>
+                </div>
+
+                <section class="view-panel is-active" id="view-consulta" role="tabpanel" aria-labelledby="tab-consulta" tabindex="0">
                 <section class="hero">
                     <div class="panel query-panel">
                         <h2>Consulta</h2>
@@ -86,7 +92,10 @@
                     </div>
                 </section>
 
-                <section class="platform-library" aria-labelledby="platform-library-title">
+                <p class="footer-note">A plataforma prioriza evidências, explicação e minimização de dados. Nenhuma senha será solicitada e os resultados são interpretados com cuidado.</p>
+                </section>
+
+                <section class="view-panel platform-library" id="view-plataformas" role="tabpanel" aria-labelledby="tab-plataformas" tabindex="0" hidden>
                     <div class="panel platform-library-panel">
                         <div class="platform-library-heading">
                             <div>
@@ -102,11 +111,9 @@
                         </div>
                     </div>
                 </section>
-
-                <p class="footer-note">A plataforma prioriza evidências, explicação e minimização de dados. Nenhuma senha será solicitada e os resultados são interpretados com cuidado.</p>
             </main>
         </div>
     </div>
-    <script src="/static/dashboard.js?v=4"></script>
+    <script src="/static/dashboard.js?v=5"></script>
 </body>
 </html>
