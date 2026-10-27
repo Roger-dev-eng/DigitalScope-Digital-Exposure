@@ -4,6 +4,173 @@ const formStatus = document.getElementById("form-status");
 const results = document.querySelectorAll(".results");
 const emailInput = form.elements.email;
 
+const platformCatalog = document.getElementById("platform-catalog");
+
+const safeExternalLink = (label, href, className = "catalog-link") => {
+    try {
+        const url = new URL(href);
+        if (url.protocol !== "https:") return null;
+        const link = document.createElement("a");
+        link.className = className;
+        link.href = url.href;
+        link.target = "_blank";
+        link.rel = "noopener noreferrer";
+        link.textContent = label;
+        return link;
+    } catch {
+        return null;
+    }
+};
+
+const appendSources = (container, sources) => {
+    const list = document.createElement("ul");
+    list.className = "catalog-sources";
+    (sources || []).forEach((source) => {
+        const link = safeExternalLink(source.label, source.url);
+        if (!link) return;
+        const item = document.createElement("li");
+        item.appendChild(link);
+        list.appendChild(item);
+    });
+    if (list.childElementCount) container.appendChild(list);
+};
+
+const renderPlatformCatalog = (catalog) => {
+    platformCatalog.replaceChildren();
+    const reviewed = document.getElementById("catalog-updated");
+    const reviewedDate = new Date(`${catalog.updated_at}T12:00:00`);
+    reviewed.textContent = `Revisado em ${reviewedDate.toLocaleDateString("pt-BR")}`;
+
+    catalog.platforms.forEach((platform) => {
+        const card = document.createElement("details");
+        card.className = "platform-card";
+
+        const summary = document.createElement("summary");
+        summary.className = "platform-card-summary";
+        const identity = document.createElement("span");
+        identity.className = "platform-identity";
+        const name = document.createElement("strong");
+        name.textContent = platform.name;
+        const company = document.createElement("span");
+        company.textContent = platform.company;
+        identity.append(name, company);
+        const disclosure = document.createElement("span");
+        disclosure.className = "platform-disclosure-hint";
+        disclosure.textContent = "Ver perfil";
+        summary.append(identity, disclosure);
+        card.appendChild(summary);
+
+        const securityHeading = document.createElement("h3");
+        securityHeading.textContent = "Controles de segurança documentados";
+        const securitySummary = document.createElement("p");
+        securitySummary.className = "platform-summary";
+        securitySummary.textContent = platform.security_summary;
+        card.append(securityHeading, securitySummary);
+
+        const dataHeading = document.createElement("h3");
+        dataHeading.textContent = "Como a plataforma diz que usa os dados";
+        const dataSummary = document.createElement("p");
+        dataSummary.className = "platform-summary";
+        dataSummary.textContent = platform.data_use;
+        card.append(dataHeading, dataSummary);
+        const policyLink = safeExternalLink("Abrir política de privacidade", platform.data_policy_url);
+        if (policyLink) card.appendChild(policyLink);
+
+        const controls = document.createElement("ul");
+        controls.className = "platform-controls";
+        platform.controls.forEach((control) => {
+            const item = document.createElement("li");
+            item.append(document.createTextNode(control.label));
+            const source = safeExternalLink("Fonte", control.url);
+            if (source) item.append(" ", source);
+            controls.appendChild(item);
+        });
+        card.appendChild(controls);
+
+        const incidentsHeading = document.createElement("h3");
+        incidentsHeading.textContent = "Incidentes públicos conhecidos";
+        card.appendChild(incidentsHeading);
+        if (platform.incidents.length) {
+            const incidents = document.createElement("div");
+            incidents.className = "platform-incidents";
+            platform.incidents.forEach((incident, index) => {
+                const incidentCard = document.createElement("section");
+                incidentCard.className = `platform-incident incident-${incident.status}`;
+                const titleRow = document.createElement("div");
+                titleRow.className = "incident-title-row";
+                const title = document.createElement("strong");
+                title.textContent = incident.title;
+                const status = document.createElement("span");
+                status.className = `incident-status status-${incident.status}`;
+                status.textContent = incident.status_label;
+                titleRow.append(title, status);
+                const dates = document.createElement("p");
+                dates.className = "incident-dates";
+                dates.textContent = `Evento: ${incident.occurred_at} · Divulgado: ${incident.disclosed_at}`;
+                const description = document.createElement("p");
+                description.className = "platform-summary";
+                description.textContent = incident.summary;
+                incidentCard.append(titleRow, dates, description);
+                appendSources(incidentCard, incident.sources);
+                incidents.appendChild(incidentCard);
+                if (index === 0) {
+                    const latestLabel = document.createElement("span");
+                    latestLabel.className = "latest-incident-label";
+                    latestLabel.textContent = "Mais recente neste catálogo";
+                    titleRow.appendChild(latestLabel);
+                }
+            });
+            card.appendChild(incidents);
+        } else {
+            const noIncident = document.createElement("p");
+            noIncident.className = "platform-summary incident-note";
+            noIncident.textContent = platform.incident_note;
+            card.appendChild(noIncident);
+        }
+
+        if (platform.regulatory_findings?.length) {
+            const regulatoryHeading = document.createElement("h3");
+            regulatoryHeading.textContent = "Decisões de autoridades sobre privacidade";
+            card.appendChild(regulatoryHeading);
+            const findings = document.createElement("div");
+            findings.className = "platform-incidents";
+            platform.regulatory_findings.forEach((finding) => {
+                const findingCard = document.createElement("section");
+                findingCard.className = "platform-incident regulatory-finding";
+                const title = document.createElement("strong");
+                title.textContent = finding.title;
+                const date = document.createElement("p");
+                date.className = "incident-dates";
+                date.textContent = finding.date;
+                const description = document.createElement("p");
+                description.className = "platform-summary";
+                description.textContent = finding.summary;
+                findingCard.append(title, date, description);
+                appendSources(findingCard, [{ label: "Fonte oficial", url: finding.url }]);
+                findings.appendChild(findingCard);
+            });
+            card.appendChild(regulatoryHeading, findings);
+        }
+
+        appendSources(card, platform.sources);
+        platformCatalog.appendChild(card);
+    });
+};
+
+fetch("/data/platforms.json?v=20261027")
+    .then((response) => {
+        if (!response.ok) throw new Error("Não foi possível carregar o catálogo.");
+        return response.json();
+    })
+    .then(renderPlatformCatalog)
+    .catch(() => {
+        platformCatalog.replaceChildren();
+        const message = document.createElement("p");
+        message.className = "catalog-loading";
+        message.textContent = "Não foi possível carregar os perfis agora. Tente atualizar a página.";
+        platformCatalog.appendChild(message);
+    });
+
 emailInput.addEventListener("invalid", () => {
     formStatus.className = "form-status error";
     formStatus.textContent = emailInput.validity.valueMissing

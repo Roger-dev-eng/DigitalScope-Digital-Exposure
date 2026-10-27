@@ -1,0 +1,218 @@
+{
+  "updated_at": "2026-10-27",
+  "platforms": [
+    {
+      "name": "YouTube",
+      "company": "Google",
+      "security_summary": "A conta do YouTube usa as proteções da Conta Google. O Google documenta autenticação em duas etapas, passkeys, chaves de segurança e revisão de segurança da conta.",
+      "data_use": "A política do Google descreve a coleta de vídeos assistidos, pesquisas, interações, informações de dispositivo e atividade. Esses dados podem ser usados para operar e melhorar serviços, personalizar recomendações e, conforme as configurações da conta, anúncios.",
+      "data_policy_url": "https://policies.google.com/privacy?hl=pt-BR",
+      "controls": [
+        {
+          "label": "Autenticação em duas etapas, incluindo passkeys e chaves de segurança",
+          "url": "https://support.google.com/accounts/answer/185839?hl=pt-BR"
+        },
+        {
+          "label": "O YouTube recomenda revisar a segurança da conta, os dispositivos e as opções de recuperação",
+          "url": "https://support.google.com/youtube/answer/9701986?hl=pt-BR"
+        }
+      ],
+      "incidents": [],
+      "incident_note": "Nenhum incidente de exposição de dados confirmado especificamente para o YouTube consta neste catálogo. Isso não prova que nenhum incidente ocorreu; não atribuímos ao YouTube incidentes de outros produtos Google sem evidência específica.",
+      "regulatory_findings": [],
+      "sources": [
+        {
+          "label": "Política de Privacidade do Google",
+          "url": "https://policies.google.com/privacy?hl=pt-BR"
+        },
+        {
+          "label": "Proteja seu canal do YouTube",
+          "url": "https://support.google.com/youtube/answer/9701986?hl=pt-BR"
+        }
+      ]
+    },
+    {
+      "name": "Instagram",
+      "company": "Meta",
+      "security_summary": "A Meta documenta autenticação em dois fatores, alertas de login e uma verificação de segurança que orienta a revisão de sessões e dados de recuperação. Esses recursos não impedem todos os tipos de tomada de conta.",
+      "data_use": "A política da Meta descreve o uso de conteúdo e atividade para operar, personalizar e melhorar seus produtos, além de atividades de segurança e publicidade. O tratamento e os controles disponíveis podem variar conforme a região e as configurações da conta.",
+      "data_policy_url": "https://privacycenter.instagram.com/policy/",
+      "controls": [
+        {
+          "label": "Autenticação em dois fatores e alertas para tentativas de login desconhecidas",
+          "url": "https://about.fb.com/news/2021/07/keeping-instagram-safe-and-secure/"
+        },
+        {
+          "label": "Security Checkup: revisão de atividade de login, perfil e meios de recuperação",
+          "url": "https://about.fb.com/news/2021/07/keeping-instagram-safe-and-secure/"
+        }
+      ],
+      "incidents": [
+        {
+          "title": "Falha no fluxo de recuperação permitiu tomada de contas",
+          "occurred_at": "17/04/2026",
+          "disclosed_at": "Junho de 2026",
+          "status": "confirmed",
+          "status_label": "Incidente confirmado",
+          "summary": "A Meta notificou autoridades sobre uma vulnerabilidade no suporte de recuperação de contas. O registro da Procuradoria-Geral do Maine informa 20.225 pessoas afetadas e indica 17 de abril de 2026 como data do incidente. Houve comprometimento de contas; as fontes consultadas não confirmam extração em massa dos dados nelas contidos.",
+          "sources": [
+            {
+              "label": "Aviso de incidente à Procuradoria-Geral do Maine",
+              "url": "https://www.maine.gov/agviewer/content/ag/985235c7-cb95-4be2-8792-a1252b4f8318/686120c8-63be-4e3c-b7ed-466d65b672f5.html"
+            },
+            {
+              "label": "Cobertura técnica do aviso e do alcance potencial",
+              "url": "https://www.bleepingcomputer.com/news/security/meta-ai-support-data-breach-affects-20-000-instagram-accounts/"
+            }
+          ]
+        },
+        {
+          "title": "Dados atribuídos ao Instagram circularam em fórum; origem contestada",
+          "occurred_at": "Alegadamente coletados em 2024; publicados em janeiro de 2026",
+          "disclosed_at": "Janeiro de 2026",
+          "status": "disputed",
+          "status_label": "Alegação contestada",
+          "summary": "Um conjunto com informações de perfis foi anunciado como dados de cerca de 17 milhões de contas. O Have I Been Pwned registra dados que aparentam ter sido coletados por scraping, sem evidência de senhas expostas. O Instagram negou uma invasão de seus sistemas; a origem e a relação com a plataforma não foram confirmadas de forma conclusiva.",
+          "sources": [
+            {
+              "label": "Análise do conjunto pelo Have I Been Pwned",
+              "url": "https://haveibeenpwned.com/Breach/Instagram"
+            },
+            {
+              "label": "Resposta do Instagram sobre as solicitações de redefinição",
+              "url": "https://techcrunch.com/2026/01/11/instagram-says-theres-been-no-breach-despite-password-reset-requests/"
+            }
+          ]
+        },
+        {
+          "title": "Senhas apareceram em registros internos legíveis",
+          "occurred_at": "Identificado em 2019",
+          "disclosed_at": "Março e abril de 2019",
+          "status": "internal_issue",
+          "status_label": "Falha interna; sem exposição externa identificada",
+          "summary": "A Meta informou que senhas de alguns usuários, incluindo contas do Instagram, foram armazenadas em formato legível em registros internos. Segundo a empresa, a investigação não encontrou abuso interno nem acesso externo indevido a essas senhas.",
+          "sources": [
+            {
+              "label": "Comunicado da Meta sobre armazenamento de senhas",
+              "url": "https://about.fb.com/news/2019/03/keeping-passwords-secure/"
+            }
+          ]
+        }
+      ],
+      "regulatory_findings": [],
+      "sources": [
+        {
+          "label": "Política de Privacidade do Instagram",
+          "url": "https://privacycenter.instagram.com/policy/"
+        },
+        {
+          "label": "Como a Meta protege contas do Instagram",
+          "url": "https://about.fb.com/news/2021/07/keeping-instagram-safe-and-secure/"
+        }
+      ]
+    },
+    {
+      "name": "TikTok",
+      "company": "ByteDance",
+      "security_summary": "O TikTok documenta verificação em duas etapas e ferramentas de segurança da conta. A disponibilidade de cada método pode variar por região e versão do aplicativo.",
+      "data_use": "A política brasileira descreve a coleta de dados de perfil, conteúdo, mensagens, dispositivo, localização aproximada e atividade de uso. Ela também descreve personalização de conteúdo e anúncios, segurança, análise de uso e compartilhamentos com parceiros em determinadas situações.",
+      "data_policy_url": "https://www.tiktok.com/legal/page/row/privacy-policy/pt-BR",
+      "controls": [
+        {
+          "label": "Verificação em duas etapas e opções de segurança da conta",
+          "url": "https://support.tiktok.com/pt_BR/safety-hc/account-and-user-safety/account-safety"
+        },
+        {
+          "label": "Ferramentas brasileiras de privacidade e gerenciamento de dados",
+          "url": "https://www.tiktok.com/privacy/your-privacy-tools/pt-BR"
+        }
+      ],
+      "incidents": [
+        {
+          "title": "Alegação de invasão e roubo de dados contestada pelo TikTok",
+          "occurred_at": "Alegado em setembro de 2022",
+          "disclosed_at": "Setembro de 2022",
+          "status": "disputed",
+          "status_label": "Não confirmado; empresa negou invasão",
+          "summary": "Um grupo afirmou ter obtido uma grande base associada ao TikTok e ao WeChat. O TikTok disse não ter encontrado evidência de invasão e afirmou que as amostras eram públicas e não resultavam de comprometimento de seus sistemas. Este catálogo não registra a alegação como vazamento confirmado.",
+          "sources": [
+            {
+              "label": "Relato da investigação e da resposta do TikTok",
+              "url": "https://www.bleepingcomputer.com/news/security/tiktok-denies-security-breach-after-hackers-leak-user-data-source-code/"
+            }
+          ]
+        }
+      ],
+      "regulatory_findings": [
+        {
+          "title": "ANPD aplicou sanção por tratamento de dados de crianças e adolescentes",
+          "date": "25/08/2026; atualização em 26/10/2026",
+          "summary": "A ANPD informou uma multa de R$ 153,7 milhões à ByteDance por irregularidades no tratamento de dados de crianças e adolescentes, além de medidas corretivas. Isso é uma decisão regulatória sobre privacidade e proteção de dados; não é um registro de invasão ou vazamento de dados.",
+          "url": "https://www.gov.br/anpd/pt-br/assuntos/noticias/anpd-multa-tiktok-em-r-153-7-milhoes-por-falhas-na-protecao-de-dados-de-criancas-e-adolescentes"
+        }
+      ],
+      "sources": [
+        {
+          "label": "Política de Privacidade do TikTok (Brasil)",
+          "url": "https://www.tiktok.com/legal/page/row/privacy-policy/pt-BR"
+        },
+        {
+          "label": "Segurança da conta no TikTok",
+          "url": "https://support.tiktok.com/pt_BR/safety-hc/account-and-user-safety/account-safety"
+        },
+        {
+          "label": "Decisão e nota da ANPD",
+          "url": "https://www.gov.br/anpd/pt-br/assuntos/noticias/anpd-multa-tiktok-em-r-153-7-milhoes-por-falhas-na-protecao-de-dados-de-criancas-e-adolescentes"
+        }
+      ]
+    },
+    {
+      "name": "Facebook",
+      "company": "Meta",
+      "security_summary": "A Meta documenta autenticação em dois fatores, chaves de segurança, alertas de login e configurações de privacidade para controlar o que fica público. A disponibilidade de controles e padrões pode variar por conta e região.",
+      "data_use": "A política da Meta descreve o uso de informações fornecidas, conteúdo, atividade, dispositivo e dados de parceiros para operar e melhorar os produtos, personalizar conteúdo e anúncios e proteger a plataforma.",
+      "data_policy_url": "https://www.facebook.com/privacy/policy/",
+      "controls": [
+        {
+          "label": "Autenticação em dois fatores, chaves de segurança e alertas de login",
+          "url": "https://about.fb.com/news/2019/03/keeping-passwords-secure/"
+        },
+        {
+          "label": "Revisão de privacidade e controle de quem encontra ou vê informações do perfil",
+          "url": "https://www.facebook.com/help/193677450678703/"
+        }
+      ],
+      "incidents": [
+        {
+          "title": "Dados de perfis foram coletados por scraping e publicados",
+          "occurred_at": "Coleta antes de setembro de 2019; publicação em abril de 2021",
+          "disclosed_at": "Abril de 2021",
+          "status": "confirmed",
+          "status_label": "Exposição por scraping; não foi invasão de sistemas segundo a Meta",
+          "summary": "A Meta afirmou que informações de mais de 530 milhões de usuários foram coletadas de perfis por meio do importador de contatos antes de setembro de 2019 e publicadas em um banco de dados. A empresa disse que o conjunto não incluía senhas nem informações financeiras ou de saúde e que alterou a função em 2019.",
+          "sources": [
+            {
+              "label": "Explicação da Meta sobre os dados do Facebook",
+              "url": "https://about.fb.com/news/2021/04/facts-on-news-reports-about-facebook-data/"
+            }
+          ]
+        }
+      ],
+      "regulatory_findings": [],
+      "sources": [
+        {
+          "label": "Política de Privacidade da Meta",
+          "url": "https://www.facebook.com/privacy/policy/"
+        },
+        {
+          "label": "Proteção de senhas e controles de conta da Meta",
+          "url": "https://about.fb.com/news/2019/03/keeping-passwords-secure/"
+        },
+        {
+          "label": "Configurações de privacidade do Facebook",
+          "url": "https://www.facebook.com/help/193677450678703/"
+        }
+      ]
+    }
+  ]
+}

@@ -16,6 +16,7 @@ O endereço `workers.dev` é exibido pelo Wrangler após o primeiro deploy. Cons
 - [Como usar](#como-usar)
 - [API](#api)
 - [Deploy na Cloudflare](#deploy-na-cloudflare)
+- [Perfis públicos de plataformas](#perfis-publicos-de-plataformas)
 - [Estrutura do projeto](#estrutura-do-projeto)
 - [Testes](#testes)
 - [Limitações conhecidas](#limitacoes-conhecidas)
@@ -50,6 +51,7 @@ O DigitalScope segue os seguintes princípios de privacidade:
 - Recomendações proporcionais à quantidade e ao tipo de exposição.
 - Cartões de incidentes com origem, data, dados vazados e fonte.
 - Metadados individuais por incidente quando o XposedOrNot os fornece, incluindo descrição, domínio, setor e referência.
+- Catálogo público, sem e-mail, de políticas, controles documentados e incidentes conhecidos de YouTube, Instagram, TikTok e Facebook.
 - Tooltip para os tipos de dados, reduzindo poluição visual.
 - Paginação de cinco incidentes por página.
 - Cache temporário em memória.
@@ -191,6 +193,8 @@ O deploy publica o Worker e os arquivos de `public/`. O Wrangler mostra o endere
 ```text
 public/
   index.html
+  data/
+    platforms.json
   static/
     dashboard.js
     styles.css
@@ -233,10 +237,18 @@ Os testes cobrem:
 - headers de segurança;
 - entrega dos arquivos estáticos.
 
+<a id="perfis-publicos-de-plataformas"></a>
+## Perfis públicos de plataformas
+
+A área **Segurança e privacidade das plataformas** não pede e-mail e não consulta o XposedOrNot. Os perfis são servidos como arquivo estático em `public/data/platforms.json`, com links para políticas, páginas de segurança, avisos de incidentes e autoridades. A data de revisão aparece na interface.
+
+O catálogo separa incidentes confirmados, alegações contestadas, falhas internas sem exposição externa identificada e decisões regulatórias sobre privacidade. Controles publicados não confirmam que estejam ativos em uma conta específica. “Não encontrado no catálogo” não garante que nunca houve um incidente; por isso, a aplicação não calcula uma nota geral de segurança.
+
 <a id="limitacoes"></a>
 ## Limitações
 
 - A disponibilidade de descrição, data, categorias e outros metadados depende do registro individual retornado pelo XposedOrNot.
+- Os perfis públicos cobrem um conjunto inicial de plataformas e refletem as fontes consultadas na data de revisão indicada; não são uma auditoria independente nem um histórico completo.
 - O sistema não confirma quais campos específicos de um usuário foram efetivamente acessados.
 - O modo local não representa dados reais.
 - O cache atual existe apenas na memória do processo.
