@@ -110,13 +110,14 @@ h1 { margin: 8px 0 0; font-size: clamp(2.1rem, 4vw, 3.2rem); line-height: 1.1; l
 .platform-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; align-items: start; }
 .platform-card { background: rgba(255,255,255,0.22); border: 1px solid rgba(122, 118, 94, 0.3); border-radius: 15px; padding: 16px; }
 .platform-card[open] { grid-column: 1 / -1; }
-.platform-card-summary { align-items: center; cursor: pointer; display: flex; justify-content: space-between; gap: 14px; list-style: none; }
+.platform-card-summary { align-items: center; cursor: pointer; display: flex; gap: 12px; list-style: none; }
 .platform-card-summary::-webkit-details-marker { display: none; }
 .platform-card-summary::after { color: var(--accent); content: "+"; font-size: 1.3rem; font-weight: 700; }
 .platform-card[open] > .platform-card-summary::after { content: "−"; }
 .platform-identity { align-items: baseline; display: flex; flex-wrap: wrap; gap: 9px; }
 .platform-identity strong { font-size: 1.15rem; }
 .platform-identity span, .platform-disclosure-hint { color: var(--ink-soft); font-size: 0.82rem; }
+.platform-disclosure-hint { margin-left: auto; white-space: nowrap; }
 .platform-card h3 { color: var(--stone-deep); font-size: 0.8rem; letter-spacing: 0.08em; margin: 18px 0 7px; text-transform: uppercase; }
 .platform-summary { color: var(--ink-soft); font-size: 0.88rem; line-height: 1.55; margin: 0 0 8px; }
 .catalog-link { color: var(--accent); font-size: 0.83rem; font-weight: 700; }
