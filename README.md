@@ -2,7 +2,7 @@
 
 Dashboard de exposição digital pessoal focado em evidências, privacidade e explicações claras sobre vazamentos associados a um e-mail.
 ## Live Demo
-https://digitalscope.digitalscope.workers.dev/
+https://digitalscope.noxlux.workers.dev/
 
 O endereço `workers.dev` é exibido pelo Wrangler após o primeiro deploy. Consulte [Deploy na Cloudflare](#deploy-na-cloudflare).
 ## Índice
