@@ -378,8 +378,8 @@
       ]
     },
     {
-      "name": "PlayStation Network",
-      "company": "Sony Interactive Entertainment",
+      "name": "PlayStation",
+      "company": "Sony",
       "security_summary": "A PlayStation documenta verificação em duas etapas por SMS ou aplicativo autenticador, códigos de backup e login por passkey. Esses recursos ajudam a proteger o acesso, mas dependem da configuração da conta e da segurança dos dispositivos de recuperação.",
       "data_use": "A política brasileira descreve a coleta de dados de conta, console e dispositivo, atividade de jogo, navegação e conteúdo compartilhado para fornecer e melhorar os serviços, personalizar recomendações e anúncios, moderar conteúdo, prevenir fraude e proteger a comunidade. Configurações de privacidade e escolhas disponíveis variam conforme o recurso e a região.",
       "data_policy_url": "https://www.playstation.com/pt-br/legal/privacy-policy/",
