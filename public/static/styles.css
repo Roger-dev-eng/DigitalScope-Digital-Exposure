@@ -58,6 +58,23 @@ h1 { margin: 8px 0 0; font-size: clamp(2.1rem, 4vw, 3.2rem); line-height: 1.1; l
 .details-panel.results.is-visible { display: grid; }
 .details-list { display: grid; gap: 10px; margin: 0; padding: 0; list-style: none; }
 .details-list li { border-left: 3px solid var(--accent); color: var(--ink-soft); line-height: 1.45; padding-left: 12px; }
+.action-plan-panel { width: 100%; max-width: 760px; }
+.action-plan-heading { align-items: flex-start; display: flex; justify-content: space-between; gap: 14px; }
+.action-plan-intro { color: var(--ink-soft); font-size: 0.88rem; line-height: 1.5; margin: -3px 0 0; }
+.action-plan-clear { flex: 0 0 auto; font: inherit; font-size: 0.8rem; }
+.action-plan-list { display: grid; gap: 10px; list-style: none; margin: 18px 0 0; padding: 0; }
+.action-plan-item { background: rgba(255,255,255,0.2); border: 1px solid rgba(122, 118, 94, 0.25); border-radius: 12px; padding: 13px 15px; }
+.action-plan-item.is-complete { opacity: 0.7; }
+.action-plan-item.is-complete .action-plan-label { text-decoration: line-through; }
+.action-plan-item label { align-items: flex-start; cursor: pointer; display: flex; gap: 11px; }
+.action-plan-checkbox { accent-color: var(--accent); flex: 0 0 auto; height: 18px; margin: 2px 0 0; width: 18px; }
+.action-plan-content { display: grid; gap: 5px; }
+.action-plan-label { color: var(--ink); font-size: 0.93rem; font-weight: 700; line-height: 1.4; }
+.action-plan-description { color: var(--ink-soft); font-size: 0.84rem; line-height: 1.5; }
+.action-plan-priority { color: var(--warning); font-size: 0.7rem; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; }
+.action-plan-links { display: flex; flex-wrap: wrap; gap: 6px 14px; margin: 10px 0 0 29px; }
+.action-plan-link { color: var(--accent); font-size: 0.8rem; font-weight: 700; }
+.action-plan-privacy { color: var(--stone-deep); font-size: 0.78rem; line-height: 1.45; margin: 14px 0 0; }
 .breaches-panel { display: none; }
 .breaches-panel.is-visible { display: block; }
 .aggregate-panel { display: none; }
@@ -148,6 +165,7 @@ h1 { margin: 8px 0 0; font-size: clamp(2.1rem, 4vw, 3.2rem); line-height: 1.1; l
     .view-tab { min-height: 44px; }
     .meta-grid { grid-template-columns: 1fr; }
     .details-panel { grid-template-columns: 1fr; }
+    .action-plan-heading { flex-direction: column; }
     .header, .content { padding-left: 20px; padding-right: 20px; }
     .platform-grid { grid-template-columns: 1fr; }
     .platform-card[open] { grid-column: auto; }

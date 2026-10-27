@@ -69,6 +69,19 @@
                         </div>
                     </div>
 
+                    <section class="panel results action-plan-panel" aria-labelledby="action-plan-title">
+                        <div class="action-plan-heading">
+                            <div>
+                                <h2 id="action-plan-title">Seu plano de ação</h2>
+                                <p class="action-plan-intro" id="action-plan-summary"></p>
+                                <p class="action-plan-progress" id="action-plan-progress" aria-live="polite"></p>
+                            </div>
+                            <button class="pagination-button action-plan-clear" id="clear-action-progress" type="button">Limpar progresso</button>
+                        </div>
+                        <ul class="action-plan-list" id="action-plan-list"></ul>
+                        <p class="action-plan-privacy">O progresso fica salvo neste navegador. Nenhum e-mail ou resultado da consulta é salvo pelo plano.</p>
+                    </section>
+
                     <div class="panel results breaches-panel" aria-live="polite">
                         <h2>Origem dos vazamentos</h2>
                         <div class="breaches-list" id="breaches-list"></div>
@@ -117,6 +130,6 @@
             </main>
         </div>
     </div>
-    <script src="/static/dashboard.js?v=6"></script>
+    <script src="/static/dashboard.js?v=7"></script>
 </body>
 </html>

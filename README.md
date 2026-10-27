@@ -34,6 +34,7 @@ O DigitalScope segue os seguintes princípios de privacidade:
 - Não solicitar ou armazenar senhas.
 - Não exibir o conteúdo de dados vazados.
 - Não armazenar e-mails consultados em banco de dados.
+- Salvar apenas o estado genérico das ações concluídas no navegador, sem e-mail ou resultado da consulta.
 - Usar cache temporário com identificador derivado do e-mail.
 - Informar a fonte dos resultados.
 - Diferenciar evidência retornada pelo provider de interpretação do sistema.
@@ -46,6 +47,7 @@ O DigitalScope segue os seguintes princípios de privacidade:
 - Consulta pelo XposedOrNot.
 - Modo local para desenvolvimento sem chamadas externas.
 - Resumo de incidentes e severidade explicável.
+- Plano de ação personalizado por categorias de exposição, com links oficiais e progresso salvo localmente sem e-mail ou resultados.
 - Exportação do resultado em JSON gerado localmente, com e-mail parcialmente mascarado.
 - Alertas para credenciais, dados pessoais e exposição recorrente.
 - Recomendações proporcionais à quantidade e ao tipo de exposição.

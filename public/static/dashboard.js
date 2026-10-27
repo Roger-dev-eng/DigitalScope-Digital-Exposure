@@ -85,6 +85,173 @@ const safeExternalLink = (label, href, className = "catalog-link") => {
     }
 };
 
+const actionProgressKey = "digitalscope.action-plan.completed.v1";
+const actionProgress = (() => {
+    try {
+        const saved = JSON.parse(localStorage.getItem(actionProgressKey) || "{}");
+        return saved && typeof saved === "object" && !Array.isArray(saved) ? saved : {};
+    } catch {
+        return {};
+    }
+})();
+
+const knownServiceSecurityPages = [
+    { id: "google", name: "Google", pattern: /\bgoogle\b|youtube/i, url: "https://myaccount.google.com/security-checkup" },
+    { id: "meta", name: "Meta (Facebook/Instagram)", pattern: /facebook|instagram/i, url: "https://www.facebook.com/hacked/" },
+    { id: "tiktok", name: "TikTok", pattern: /tiktok/i, url: "https://support.tiktok.com/en/safety-hc/account-and-user-safety/account-safety" },
+    { id: "amazon", name: "Amazon", pattern: /amazon/i, url: "https://www.amazon.com/gp/help/customer/display.html?nodeId=201909010" },
+    { id: "x", name: "X", pattern: /twitter|x\.com|\bx\b/i, url: "https://help.x.com/en/safety-and-security/account-security-tips" },
+    { id: "microsoft", name: "Microsoft", pattern: /microsoft|outlook|onedrive|xbox/i, url: "https://account.microsoft.com/security" },
+    { id: "playstation", name: "PlayStation", pattern: /playstation|\bpsn\b/i, url: "https://www.playstation.com/en-us/support/account/2sv-login/" },
+    { id: "cloudflare", name: "Cloudflare", pattern: /cloudflare/i, url: "https://developers.cloudflare.com/fundamentals/account/account-security/2fa/" },
+];
+
+const actionDefinitions = (payload) => {
+    const breaches = Array.isArray(payload.breaches) ? payload.breaches : [];
+    const classes = breaches.flatMap((breach) => Array.isArray(breach.data_classes) ? breach.data_classes : [])
+        .map((value) => String(value).toLowerCase());
+    const classText = classes.join(" ");
+    const hasCredentials = /password|senha|credential|credencial|hash|token|login|security question|pergunta de seguran/.test(classText);
+    const hasFinancial = /payment|pagamento|card|cart[aã]o|credit|cr[eé]dito|bank|banco|financial|financeiro|billing|cobran[cç]a/.test(classText);
+    const hasIdentity = /birth|nascimento|address|endere[cç]o|phone|telefone|passport|passaporte|national|nacional|government|governo|cpf|tax|fiscal|identity|identidade/.test(classText);
+    const servicesText = breaches.map((breach) => `${breach.name || ""} ${breach.domain || ""}`).join(" ");
+    const servicePages = knownServiceSecurityPages.filter((service) => service.pattern.test(servicesText));
+    const tasks = [];
+
+    tasks.push({
+        id: "protect-email-account",
+        priority: hasCredentials ? "Prioridade alta" : "Prioridade recomendada",
+        title: "Proteja a conta de e-mail usada na consulta",
+        description: "Ative autenticação em dois fatores, confira os métodos de recuperação e encerre sessões que não reconhecer. O e-mail costuma ser usado para redefinir outras senhas.",
+    });
+    tasks.push({
+        id: "update-reused-passwords",
+        priority: hasCredentials ? "Prioridade alta" : "Boa prática de segurança",
+        title: hasCredentials
+            ? "Troque senhas expostas e qualquer senha reutilizada"
+            : "Use senhas únicas nas contas importantes",
+        description: hasCredentials
+            ? "Entre diretamente nos sites oficiais dos serviços afetados e troque as senhas. Atualize também qualquer outra conta onde a mesma senha tenha sido usada."
+            : "Um gerenciador de senhas ajuda a criar e guardar uma senha diferente para cada serviço.",
+    });
+    tasks.push({
+        id: "enable-multifactor-authentication",
+        priority: "Proteção recomendada",
+        title: "Ative autenticação em dois fatores",
+        description: "Priorize e-mail, redes sociais, armazenamento em nuvem, lojas e contas com dados financeiros. Prefira aplicativo autenticador ou passkey quando disponíveis.",
+        services: servicePages,
+    });
+    if (breaches.length) {
+        tasks.push({
+            id: "review-account-sessions",
+            priority: "Verificação recomendada",
+            title: "Revise atividades recentes e dispositivos conectados",
+            description: "Procure logins desconhecidos, remova dispositivos que não reconhece e revogue o acesso de aplicativos de terceiros que não usa mais.",
+            services: servicePages,
+        });
+        tasks.push({
+            id: "watch-for-phishing",
+            priority: "Atenção contínua",
+            title: "Desconfie de mensagens inesperadas sobre suas contas",
+            description: "Dados de contato publicados em incidentes podem facilitar golpes personalizados. Não abra links de redefinição recebidos por mensagem; acesse o serviço digitando o endereço oficial.",
+        });
+    }
+    if (hasFinancial) {
+        tasks.push({
+            id: "review-financial-activity",
+            priority: "Prioridade alta",
+            title: "Confira movimentações e cobranças",
+            description: "Revise extratos e compras recentes. Se encontrar algo que não reconhece, contate o banco ou emissor do cartão usando os canais oficiais.",
+        });
+    }
+    if (hasIdentity) {
+        tasks.push({
+            id: "protect-identity-information",
+            priority: "Atenção recomendada",
+            title: "Redobre o cuidado com tentativas de identificação e fraude",
+            description: "Não confirme dados pessoais em ligações ou mensagens recebidas sem solicitação. Procure os canais oficiais se receber avisos de abertura de conta ou solicitação que não reconhece.",
+        });
+    }
+    return { tasks, breachCount: breaches.length, hasCredentials };
+};
+
+const saveActionProgress = () => {
+    try {
+        const completed = Object.fromEntries(Object.entries(actionProgress).filter(([, value]) => value === true));
+        if (Object.keys(completed).length) localStorage.setItem(actionProgressKey, JSON.stringify(completed));
+        else localStorage.removeItem(actionProgressKey);
+    } catch {
+        // Checklist remains usable for this page even if browser storage is unavailable.
+    }
+};
+
+const renderActionPlan = (payload) => {
+    const list = document.getElementById("action-plan-list");
+    const summary = document.getElementById("action-plan-summary");
+    const progress = document.getElementById("action-plan-progress");
+    const { tasks, breachCount, hasCredentials } = actionDefinitions(payload);
+    list.replaceChildren();
+    summary.textContent = breachCount
+        ? `Plano baseado nas categorias publicadas para ${breachCount} incidente(s). Elas não confirmam quais dados seus foram acessados.`
+        : "Nenhum incidente associado foi retornado. Estas são medidas gerais para proteger suas contas.";
+
+    const updateProgress = () => {
+        const completeCount = tasks.filter((task) => actionProgress[task.id] === true).length;
+        progress.textContent = `${completeCount} de ${tasks.length} ações marcadas como concluídas`;
+    };
+
+    tasks.forEach((task) => {
+        const item = document.createElement("li");
+        item.className = "action-plan-item";
+        const label = document.createElement("label");
+        const checkbox = document.createElement("input");
+        checkbox.className = "action-plan-checkbox";
+        checkbox.type = "checkbox";
+        checkbox.checked = actionProgress[task.id] === true;
+        const content = document.createElement("span");
+        content.className = "action-plan-content";
+        const priority = document.createElement("span");
+        priority.className = "action-plan-priority";
+        priority.textContent = task.priority;
+        const title = document.createElement("span");
+        title.className = "action-plan-label";
+        title.textContent = task.title;
+        const description = document.createElement("span");
+        description.className = "action-plan-description";
+        description.textContent = task.description;
+        content.append(priority, title, description);
+        label.append(checkbox, content);
+        item.appendChild(label);
+
+        if (task.services?.length) {
+            const links = document.createElement("div");
+            links.className = "action-plan-links";
+            task.services.forEach((service) => {
+                const link = safeExternalLink(`Central de segurança: ${service.name}`, service.url, "action-plan-link");
+                if (link) links.appendChild(link);
+            });
+            if (links.childElementCount) item.appendChild(links);
+        }
+        item.classList.toggle("is-complete", checkbox.checked);
+        checkbox.addEventListener("change", () => {
+            if (checkbox.checked) actionProgress[task.id] = true;
+            else delete actionProgress[task.id];
+            item.classList.toggle("is-complete", checkbox.checked);
+            saveActionProgress();
+            updateProgress();
+        });
+        list.appendChild(item);
+    });
+    updateProgress();
+
+    const clearButton = document.getElementById("clear-action-progress");
+    clearButton.onclick = () => {
+        Object.keys(actionProgress).forEach((id) => delete actionProgress[id]);
+        saveActionProgress();
+        renderActionPlan(payload);
+    };
+};
+
 const appendSources = (container, sources) => {
     const list = document.createElement("ul");
     list.className = "catalog-sources";
@@ -289,6 +456,7 @@ form.addEventListener("submit", async (event) => {
         }
 
         const payload = await response.json();
+        renderActionPlan(payload);
         currentExportReport = {
             title: "Relatório de exposição digital — DigitalScope",
             generated_at: new Date().toISOString(),
