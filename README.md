@@ -50,7 +50,6 @@ O DigitalScope segue os seguintes princípios de privacidade:
 - Plano de ação personalizado por categorias de exposição, com links oficiais e progresso salvo localmente sem e-mail ou resultados.
 - Exportação do resultado em JSON gerado localmente, com e-mail parcialmente mascarado.
 - Alertas para credenciais, dados pessoais e exposição recorrente.
-- Recomendações proporcionais à quantidade e ao tipo de exposição.
 - Cartões de incidentes com origem, data, dados vazados e fonte.
 - Metadados individuais por incidente quando o XposedOrNot os fornece, incluindo descrição, domínio, setor e referência.
 - Catálogo público, sem e-mail, de políticas, controles documentados e incidentes conhecidos de YouTube, Instagram, TikTok, Facebook, Google, Amazon, X, Cloudflare, Microsoft e PlayStation Network.

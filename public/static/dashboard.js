@@ -473,7 +473,6 @@ form.addEventListener("submit", async (event) => {
                 message: String(alert.message || ""),
                 details: Array.isArray(alert.details) ? alert.details.map(String) : [],
             })) : [],
-            recommendations: Array.isArray(payload.recommendations) ? payload.recommendations.map(String) : [],
             breaches: Array.isArray(payload.breaches) ? payload.breaches.map(safeExportBreach) : [],
             note: "Este arquivo foi gerado localmente no navegador. O e-mail foi mascarado. Os resultados refletem apenas as fontes consultadas nesta busca.",
         };
@@ -502,7 +501,6 @@ form.addEventListener("submit", async (event) => {
             alert.details.forEach((detail) => alertItems.push(detail));
         });
         renderList("alerts-list", alertItems, "Nenhum alerta identificado.");
-        renderList("recommendations-list", payload.recommendations, "Nenhuma recomendação disponível.");
 
         const breachesList = document.getElementById("breaches-list");
         const pagination = document.getElementById("breach-pagination");
