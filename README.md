@@ -25,7 +25,7 @@ O endereço `workers.dev` é exibido pelo Wrangler após o primeiro deploy. Cons
 <a id="visao-geral"></a>
 ## Visão geral
 
-O DigitalScope consulta um e-mail e apresenta sinais de exposição encontrados em bases públicas. O sistema mostra os incidentes, a data ou período informado, os tipos de dados e a fonte da consulta. O projeto não afirma que uma conta foi invadida nem exibe dados privados recuperados de vazamentos.
+O DigitalScope oferece duas áreas: **Verificar e-mail**, que consulta sinais de exposição em bases públicas e apresenta incidentes, datas, tipos de dados e fontes; e **Panorama das plataformas**, que reúne informações públicas sobre o uso de dados, controles de segurança documentados e incidentes conhecidos de serviços populares. O panorama pode ser consultado sem informar e-mail. O projeto não afirma que uma conta foi invadida nem exibe dados privados recuperados de vazamentos.
 
 <a id="principios-de-privacidade"></a>
 ## Princípios de privacidade
